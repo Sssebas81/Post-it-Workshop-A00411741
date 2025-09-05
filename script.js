@@ -3,8 +3,9 @@ const addButton = document.getElementById('add-note-button');
 const notesContainer = document.getElementById('notes-container');
 const toggleThemeButton = document.getElementById('toggle-theme-button');
 const body = document.body;
-const colors = ['note-yellow'];
-
+const colors = ['note-yellow', 'note-blue','note-pink']; //ACA SE CORRIGIO PARA QUE HUBIERA MAS COLORES DE POST-IT
+//Esta funcion permite crear un elemento nota, crea un boton para eliminar
+//dicha nota y tambien se le crea una x
 function createNoteElement(text, colorClass) {
     const noteDiv = document.createElement('div');
     noteDiv.classList.add('note', colorClass); 
@@ -17,7 +18,8 @@ function createNoteElement(text, colorClass) {
     noteDiv.appendChild(deleteButton);
     return noteDiv;
 }
-
+//Esta funcion ayuda a que al recargar la pagina la informacion
+//no se pierda ni el post-it, ni la x, ni la info
 function loadNotes() {
     const storedNotes = [];
     console.log(storedNotes);
@@ -30,12 +32,14 @@ function loadNotes() {
     }
 }
 
+//Esta funcion permite que al recargar la pagina se mantenga el darkmode
 function setInitialTheme() {
     const isDarkMode = localStorage.getItem('isDarkMode') === 'true';
     if (isDarkMode) {
         body.classList.add('dark-mode');
         toggleThemeButton.textContent = 'Modo Claro';
     }
+    toggleThemeButton.addEventListener
 }
 
 noteInput.addEventListener('input', () => {
@@ -60,7 +64,7 @@ notesContainer.addEventListener('dblclick', (event) => {
         textarea.value = currentText;
         target.appendChild(textarea);
         textarea.focus();
-
+//Esta funcion permite editar el post-it y actualizar la info
         function saveEdit() {
             const newText = textarea.value.trim();
             target.textContent = newText;
@@ -89,13 +93,15 @@ addButton.addEventListener('click', () => {
         const randomColor = colors[Math.floor(Math.random() * colors.length)];
         const newNote = createNoteElement(noteText, randomColor);
         notesContainer.appendChild(newNote);
-        const newNoteErr = createNoteElement(noteText, randomColor);
-        notesContainer.appendChild(newNoteErr);
+        //const newNoteErr = createNoteElement(noteText, randomColor);
+        //notesContainer.appendChild(newNoteErr);
+        //AQUI ESTABA EL ERROR QUE HACIA QUE SE COLOCARAN 2 POST-IT
         noteInput.value = '';
         addButton.disabled = true;
         saveNotes();
     }
 });
+
 
 notesContainer.addEventListener('click', (event) => {
     if (event.target.classList.contains('delete-btn')) {
