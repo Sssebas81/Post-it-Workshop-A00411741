@@ -21,7 +21,7 @@ function createNoteElement(text, colorClass) {
 //Esta funcion ayuda a que al recargar la pagina la informacion
 //no se pierda ni el post-it, ni la x, ni la info
 function loadNotes() {
-    const storedNotes = [];
+    const storedNotes = localStorage.getItem("notes");
     console.log(storedNotes);
     if (storedNotes) {
         const notes = JSON.parse(storedNotes);
@@ -30,6 +30,17 @@ function loadNotes() {
             notesContainer.appendChild(newNote);
         });
     }
+}
+//Permite guardar las notas, para poder recargar la pagina y se conserve la informacion
+function saveNotes() {
+    const notes = [];
+    document.querySelectorAll('.note').forEach(note => {
+        notes.push({
+            text: note.textContent.replace('x', '').trim(),
+            color: colors.find(c => note.classList.contains(c))
+        });
+    });
+    localStorage.setItem('notes', JSON.stringify(notes));
 }
 
 //Esta funcion permite que al recargar la pagina se mantenga el darkmode
